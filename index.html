@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link href="style.css" rel="stylesheet" type="text/css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap" rel="stylesheet" type="text/css">
+  <link href="https://zays-gitlab.github.io/plain-draggable/IconCss/main.min.css" rel="stylesheet" type="text/css">
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="script.js"></script>
+  <script src="resizable.js"></script>
+  <script src="click.js"></script>
+  <script src="https://zays-gitlab.github.io/plain-draggable/plain-draggable.min.js"></script>
+</head>
+
+<body onload = 'load_cells()'>
+
+  <div class="nav_bar">
+    <div class = "time" >Queens, NY  </div>
+  </div>
+
+  <div class="display" id = "display_full">  
+    <div class="boxes display_grid" id = "display">  
+    </div>
+  </div>
+
+  <div class = "home_bar">
+    <button class="button">
+      <img src="images/windows.png" alt="home">
+    </button>
+  </div>
+
+</body>
+
+</html>

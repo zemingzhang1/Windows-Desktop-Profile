@@ -1,0 +1,86 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  background-color:#0D8882;
+  margin: 0; 
+  overflow: hidden;
+  font-family: 'Silkscreen', cursive;
+}
+
+.form-content{
+  padding: 8px 8px 8px 8px !important;
+  height: 100% !important;
+}
+
+.display {
+  width: 100%;
+  height: calc(100% - 64px);
+}
+
+.display_grid {
+  margin: 2px 25px 25px 25px;
+  display: grid;
+  grid-template-columns: 100px;
+  gap: 10px;
+  grid-auto-rows: 100px;
+  width: 100%;
+  height: 100%;
+}
+
+.display_grid img{
+  width:65px;
+}
+
+/* Some Basic Setup */
+.nav_bar{
+  background-color: #CACACA;
+  height:20px;
+  width:100%;
+  box-shadow: 0px 1.5px black;
+  border-style: inset;
+}
+
+.home_bar{
+  padding: 3px 6px;
+  background-color: #CACACA;
+  height:30px;
+  width:100%;
+  box-shadow: 0px -2px #FFFFFF;
+  border-style: outset;
+}
+
+.button {
+  height: 30px;
+  padding: 2px 1px;
+  font-size: 19px;
+  font-family : inherit;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  background-color: #CACACA;
+  border-style: none solid solid none ;
+  box-shadow: -1px -2px #FFFFFF;
+}
+
+.button:hover {
+  background-color: #b0b0b0;
+}
+
+.button:active {
+  background-color: #a3a3a3;
+  box-shadow: 0 2px #666;
+  transform: translateY(4px);
+}
+
+.button img {
+  height:25px;
+}
+
+.time {
+  height:15px;
+  width:200px;
+  font-size: 13px;
+  border-style: inset;
+}
+
+Content-Security-Policy: frame-ancestors https://github.com
