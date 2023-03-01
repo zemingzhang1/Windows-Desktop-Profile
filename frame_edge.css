@@ -1,0 +1,26 @@
+.resizers {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.resizer {
+  position: absolute;
+  width: 11px;
+  height: 2px;
+  border-top: 2px solid #000000;
+  border-bottom: 2px solid #000000;
+  transform: rotate(-45deg);
+  cursor: nwse-resize;
+}
+
+.bottom-right {
+  right: 1px;
+  bottom: 3px;
+}
+
+.windows-button:hover {
+  background-color: #8b8b8b !important;
+  border: inset;
+}

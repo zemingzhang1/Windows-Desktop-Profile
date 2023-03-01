@@ -4,23 +4,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
+
+  <link href="homebar.css" rel="stylesheet" type="text/css">
   <link href="style.css" rel="stylesheet" type="text/css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="in_frame.css" rel="stylesheet" type="text/css">
+  <link href="frame_edge.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@700&display=swap" rel="stylesheet" type="text/css">
   <link href="https://zays-gitlab.github.io/plain-draggable/IconCss/main.min.css" rel="stylesheet" type="text/css">
-  
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script src="homebar.js"></script>
   <script src="script.js"></script>
+  <script src="in_frame.js"></script>
   <script src="resizable.js"></script>
-  <script src="click.js"></script>
-  <script src="https://zays-gitlab.github.io/plain-draggable/plain-draggable.min.js"></script>
+  <script src="click.js"></script>  
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://zays-gitlab.github.io/plain-draggable/plain-draggable.min.js"></script>  
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 
-<body onload = 'load_cells()'>
-
+<body onload = 'load_cells()'>  
   <div class="nav_bar">
-    <div class = "time" >Queens, NY  </div>
+    <div class = "location" >
+      <img class = "icon_map" src="icons/globe_map.png"></img>
+      <div class = "date_text" id = "location_textID">Queens, NY</div>
+    </div>
+    <div class = "date" id = "date_ID">
+      <img class = "icon_map" src="icons/calendar-ic.png"></img>
+      <div class = "date_text" id = "date_textID"></div>
+    </div>
   </div>
 
   <div class="display" id = "display_full">  
@@ -29,11 +42,22 @@
   </div>
 
   <div class = "home_bar">
-    <button class="button">
+    <button class="home_button" id = homeID>
       <img src="images/windows.png" alt="home">
     </button>
-  </div>
+    <div class = "small_icons_bars_container" id= "smallIconsID"></div>
 
+    <div class = "time_box" id= "time_boxID">
+      <img class = "icon_map" src="icons/clock.png"></img>
+      <div class = "time" id= "timeID"></div>
+    </div>
+    
+  </div>
 </body>
 
 </html>
+
+
+
+
+

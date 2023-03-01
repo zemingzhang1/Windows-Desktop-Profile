@@ -53,21 +53,6 @@ function makeResizable(div){
   const bottomRight = document.createElement('div');
   bottomRight.classList.add('resizer', 'bottom-right');
   
-  // add the style to the divs 
-  resizable.style.top = '0px';
-  resizable.style.left = '0px';
-  bottomRight.style.width = '8px';
-  bottomRight.style.height = '8px';
-  bottomRight.style.borderRadius = '0%';
-  bottomRight.style.background = 'white';
-  bottomRight.style.border = '2px solid #4286f4';
-  bottomRight.style.position = 'absolute';
-  bottomRight.style.right = '2px';
-  bottomRight.style.bottom = '2px';
-  bottomRight.style.cursor = 'nwse-resize';
-  bottomRight.style.zIndex = '1';
-  
-
   resizers.appendChild(bottomRight);
   resizable.appendChild(resizers);
   
