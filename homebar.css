@@ -1,4 +1,6 @@
 .home_bar {
+  position: fixed;
+  bottom: 0.01%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
