@@ -10,18 +10,23 @@ me.zemingzhang.com/Windows-Desktop-Profile/index.html
 ```
 
 
-## CI/CD (dev -> tg -> prod)
-This repo now includes a GitHub Actions pipeline for this static site:
-
-- `develop` branch -> deploys to **dev** environment.
-- `tg` branch -> deploys to **tg** environment.
-- `main` branch -> deploys to **prod** environment.
+## CI/CD (all branches + manual deploy)
+This repo includes a GitHub Actions pipeline for this static site.
 
 Workflow file:
-- `.github/workflows/static-cicd.yml`
+- `.github/workflows/main.yml`
+
+Branch routing (automatic):
+- `main` -> **prod**
+- `tg` -> **tg**
+- every other branch -> **dev**
+
+Manual trigger (`workflow_dispatch`):
+- You can pick `auto`, `dev`, `tg`, or `prod`.
+- `prod` manual deploy is allowed only from the `main` branch.
 
 ### Required GitHub Environment Secrets
-Create the same secret names under each environment (`dev`, `tg`, `prod`):
+Create these same secret names under each environment (`dev`, `tg`, `prod`):
 
 - `SSH_HOST`
 - `SSH_PORT` (optional, defaults to `22`)
