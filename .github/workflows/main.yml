@@ -1,0 +1,97 @@
+name: Static Site CI/CD
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
+    inputs:
+      deploy_env:
+        description: "Target environment (auto resolves by branch)"
+        required: true
+        default: auto
+        type: choice
+        options:
+          - auto
+          - dev
+          - tg
+          - prod
+
+permissions:
+  contents: read
+
+env:
+  DEPLOY_EXCLUDES: ".git/*,.github/*,node_modules/*"
+
+jobs:
+  validate:
+    name: Validate static site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure entrypoint exists
+        run: test -f index.html
+
+      - name: Validate HTML files
+        run: npx --yes htmlhint "**/*.html"
+
+  resolve_environment:
+    name: Resolve deploy environment
+    needs: validate
+    runs-on: ubuntu-latest
+    outputs:
+      deploy_env: ${{ steps.resolve.outputs.deploy_env }}
+    steps:
+      - name: Resolve environment by branch or manual input
+        id: resolve
+        run: |
+          INPUT_ENV="${{ github.event.inputs.deploy_env || 'auto' }}"
+          BRANCH="${GITHUB_REF#refs/heads/}"
+
+          if [ "$INPUT_ENV" != "auto" ]; then
+            if [ "$INPUT_ENV" = "prod" ] && [ "$BRANCH" != "main" ]; then
+              echo "Manual prod deploys are only allowed from main branch."
+              exit 1
+            fi
+            DEPLOY_ENV="$INPUT_ENV"
+          else
+            if [ "$BRANCH" = "main" ]; then
+              DEPLOY_ENV="prod"
+            elif [ "$BRANCH" = "tg" ]; then
+              DEPLOY_ENV="tg"
+            else
+              DEPLOY_ENV="dev"
+            fi
+          fi
+
+          echo "deploy_env=$DEPLOY_ENV" >> "$GITHUB_OUTPUT"
+          echo "Resolved deploy environment: $DEPLOY_ENV"
+
+  deploy:
+    name: Deploy static site
+    needs: resolve_environment
+    runs-on: ubuntu-latest
+    environment: ${{ needs.resolve_environment.outputs.deploy_env }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show deployment target
+        run: echo "Deploying branch ${GITHUB_REF#refs/heads/} to ${{ needs.resolve_environment.outputs.deploy_env }}"
+
+      - name: Upload static files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "./*"
+          target: ${{ secrets.DEPLOY_PATH }}
+          overwrite: true
+          strip_components: 1
+          rm: false
+          tar_tmp_path: /tmp
+          exclude: ${{ env.DEPLOY_EXCLUDES }}

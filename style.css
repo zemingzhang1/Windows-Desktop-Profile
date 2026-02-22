@@ -16,7 +16,8 @@ html, body {
 
 .display {
   width: 100%;
-  height: calc(100% - 64px);
+  height: calc(100% - 56px);
+  margin-top: 24px;
 }
 
 .display_grid {
@@ -26,8 +27,9 @@ html, body {
   grid-template-rows: repeat(auto-fill, minmax(100px, 1fr));
   grid-auto-flow: column;
   gap: 5px;
-  width: 100%;
+  width: calc(100% - 50px);
   height: 100%;
+  box-sizing: border-box;
 }
 
 .display_grid img{
@@ -36,13 +38,17 @@ html, body {
 
 /* Some Basic Setup */
 .nav_bar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: #CACACA;
   height: 20px;
-  width: 100%;
   box-shadow: 0px 1.5px black;
   border-style: inset;
-  /* Add this line to make the child elements flex items */
+  box-sizing: border-box;
   display: flex;
+  z-index: 1001;
 }
 
 .location {

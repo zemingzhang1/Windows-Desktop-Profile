@@ -50,6 +50,7 @@ function load_cells() {
   }
   // Call the updateDateTime function initially to set the current date and time
   updateDateTime();
+  initStartMenu();
 }
 
 function deleteSign() {
