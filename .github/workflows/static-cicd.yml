@@ -1,0 +1,104 @@
+name: Static Site CI/CD
+
+on:
+  push:
+    branches:
+      - develop
+      - tg
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DEPLOY_EXCLUDES: ".git/*,.github/*,node_modules/*"
+
+jobs:
+  validate:
+    name: Validate static site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure entrypoint exists
+        run: test -f index.html
+
+      - name: Validate HTML files
+        run: npx --yes htmlhint "**/*.html"
+
+  deploy_dev:
+    name: Deploy to dev
+    if: github.ref == 'refs/heads/develop'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload static files to dev
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "./*"
+          target: ${{ secrets.DEPLOY_PATH }}
+          overwrite: true
+          strip_components: 1
+          rm: false
+          tar_tmp_path: /tmp
+          exclude: ${{ env.DEPLOY_EXCLUDES }}
+
+  deploy_tg:
+    name: Deploy to tg
+    if: github.ref == 'refs/heads/tg'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: tg
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload static files to tg
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "./*"
+          target: ${{ secrets.DEPLOY_PATH }}
+          overwrite: true
+          strip_components: 1
+          rm: false
+          tar_tmp_path: /tmp
+          exclude: ${{ env.DEPLOY_EXCLUDES }}
+
+  deploy_prod:
+    name: Deploy to prod
+    if: github.ref == 'refs/heads/main'
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload static files to prod
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          source: "./*"
+          target: ${{ secrets.DEPLOY_PATH }}
+          overwrite: true
+          strip_components: 1
+          rm: false
+          tar_tmp_path: /tmp
+          exclude: ${{ env.DEPLOY_EXCLUDES }}
